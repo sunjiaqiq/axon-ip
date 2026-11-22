@@ -1,6 +1,6 @@
 ﻿# Axon IP · 全自动智能口播与获客系统
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](./LICENSE)
+[![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](./LICENSE)
 [![Python](https://img.shields.io/badge/Python-3.10+-green.svg)](https://www.python.org/)
 [![React](https://img.shields.io/badge/React-19-61dafb.svg)](https://react.dev/)
 
@@ -181,7 +181,7 @@ axon-ip/
 
 ## License
 
-[MIT](./LICENSE) © sunjiaqiq
+[Apache License 2.0](./LICENSE) © sunjiaqiq
 
 演示与产品介绍可参考仓库历史说明或作者飞书文档；本 README 以**可运行源码与工程说明**为准。
 
