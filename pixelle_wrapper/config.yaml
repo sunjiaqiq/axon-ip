@@ -1,0 +1,37 @@
+﻿comfyui:
+  image:
+    default_workflow: runninghub/image_flux.json
+  runninghub_api_key: ""  # 填写 RunningHub API Key，或设置环境变量 RUNNINGHUB_API_KEY
+  tts:
+    default_workflow: runninghub/tts_index2.json
+  video:
+    default_workflow: runninghub/video_wan2.1_fusionx.json
+    # 数字人口播高清增强；未配置 runninghub_api_key 时任务失败（本机调试可改为 false）
+    require_hd_enhancement: true
+llm:
+  api_key: ""          # 填写大模型 API Key，或设置环境变量 PIXELLE_API_KEY / OPENAI_API_KEY
+  base_url: https://dashscope.aliyuncs.com/compatible-mode/v1
+  model: qwen3.8-max
+# 硅基流动（浏览器自动化 / 部分 AI 能力）
+siliconflow:
+  api_key: ""          # 或设置环境变量 SILICONFLOW_API_KEY
+  api_base: https://api.siliconflow.cn/v1
+  model: zai-org/GLM-5.3
+browser:
+  # chrome_path 不指定时自动使用本机已安装的 Google Chrome
+  profile_directory: "Default"
+
+# 截流脚本人设（示例为空；真实微信号请在客户端「文案创作 → 配置人设」填写，勿提交仓库）
+persona:
+  industry_keywords: ""
+  comment_example: ""
+  intent_keywords: "多少钱/怎么联系/加微信/厂家/合作/代理/报价/加盟/下单"
+  wechat_id: ""
+  price_range: ""
+  company_name: ""
+  service_region: ""
+  target_audience: ""
+  company_address: ""
+  business_year: ""
+  key_features: ""
+  related_notes: ""

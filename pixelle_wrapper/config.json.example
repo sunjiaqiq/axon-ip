@@ -1,0 +1,18 @@
+{
+  "pixelle_video_path": "Y:/Video-main",
+  "description": "Pixelle-Video 项目路径配置",
+  "instructions": [
+    "1. 将此文件复制为 config.json",
+    "2. 修改 pixelle_video_path 为你的实际 Pixelle-Video 项目路径",
+    "3. 支持绝对路径，例如：Y:/Video-main 或 D:/Projects/Video-main",
+    "4. 也可以设置环境变量 PIXELLE_VIDEO_ROOT 来指定路径"
+  ]
+}
+
+
+
+
+
+
+
+

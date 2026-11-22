@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FFmpeg 花字模板效果预览</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Microsoft YaHei', Arial, sans-serif;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 36px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+        
+        .template-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+        
+        .template-card {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 25px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+        
+        .template-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            color: #FFD700;
+            border-bottom: 2px solid rgba(255, 215, 0, 0.3);
+            padding-bottom: 8px;
+        }
+        
+        .preview-box {
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 10px;
+            position: relative;
+            margin-bottom: 15px;
+            overflow: hidden;
+            box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.3);
+        }
+        
+        .preview-text {
+            position: absolute;
+            font-size: 48px;
+            font-weight: bold;
+            white-space: nowrap;
+        }
+        
+        /* 模板1: 基础白色文字（左上角） */
+        .template1 .preview-text {
+            color: white;
+            font-size: 48px;
+            top: 10px;
+            left: 10px;
+        }
+        
+        /* 模板2: 红色粗体文字（居中） */
+        .template2 .preview-text {
+            color: red;
+            font-size: 60px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-weight: 900;
+        }
+        
+        /* 模板3: 黄色描边文字（底部居中） */
+        .template3 .preview-text {
+            color: yellow;
+            font-size: 50px;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            text-shadow: 
+                -3px -3px 0 black,
+                3px -3px 0 black,
+                -3px 3px 0 black,
+                3px 3px 0 black;
+        }
+        
+        /* 模板4: 渐变彩色文字（顶部） */
+        .template4 .preview-text {
+            background: linear-gradient(90deg, #FF0000, #00FF00, #0000FF, #FFFF00);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-size: 55px;
+            top: 30px;
+            left: 10px;
+        }
+        
+        /* 模板5: 带阴影的文字（右下角） */
+        .template5 .preview-text {
+            color: white;
+            font-size: 48px;
+            bottom: 20px;
+            right: 20px;
+            text-shadow: 4px 4px 8px rgba(0, 0, 0, 0.8);
+        }
+        
+        /* 模板6: 半透明背景文字（居中） */
+        .template6 .preview-text {
+            color: white;
+            font-size: 50px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0, 0, 0, 0.5);
+            padding: 10px 20px;
+            border-radius: 5px;
+        }
+        
+        /* 模板7: 抖音风格 - 粉色文字（底部） */
+        .template7 .preview-text {
+            color: #FF1493;
+            font-size: 52px;
+            bottom: 50px;
+            left: 50%;
+            transform: translateX(-50%);
+            text-shadow: 
+                -5px -5px 0 white,
+                5px -5px 0 white,
+                -5px 5px 0 white,
+                5px 5px 0 white;
+        }
+        
+        /* 模板8: 霓虹灯效果（闪烁文字） */
+        .template8 .preview-text {
+            color: #00FFFF;
+            font-size: 60px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            animation: neon-flicker 1s infinite;
+            text-shadow: 
+                0 0 10px #00FFFF,
+                0 0 20px #00FFFF,
+                0 0 30px #00FFFF;
+        }
+        
+        @keyframes neon-flicker {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+        
+        /* 模板9: 滚动文字（从右到左） */
+        .template9 .preview-text {
+            color: white;
+            font-size: 48px;
+            top: 50px;
+            left: 100%;
+            animation: scroll-left 5s linear infinite;
+        }
+        
+        @keyframes scroll-left {
+            0% { left: 100%; }
+            100% { left: -100%; }
+        }
+        
+        /* 模板10: 打字机效果（逐字显示） */
+        .template10 .preview-text {
+            color: white;
+            font-size: 50px;
+            top: 10px;
+            left: 100px;
+            width: 0;
+            overflow: hidden;
+            animation: typewriter 3s steps(4) infinite;
+            border-right: 3px solid white;
+        }
+        
+        @keyframes typewriter {
+            0% { width: 0; }
+            100% { width: 300px; }
+        }
+        
+        /* 模板11: 彩虹渐变文字 */
+        .template11 .preview-text {
+            background: linear-gradient(90deg, 
+                #FF0000, #FF7F00, #FFFF00, #00FF00, 
+                #0000FF, #4B0082, #9400D3);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-size: 55px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        
+        /* 模板12: 立体3D文字 */
+        .template12 .preview-text {
+            color: white;
+            font-size: 60px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-shadow: 
+                2px 2px 0 #000,
+                4px 4px 0 #000,
+                6px 6px 0 #000;
+        }
+        
+        /* 模板13: 抖音热门 - 金色文字 */
+        .template13 .preview-text {
+            color: #FFD700;
+            font-size: 56px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-shadow: 
+                -5px -5px 0 black,
+                5px -5px 0 black,
+                -5px 5px 0 black,
+                5px 5px 0 black;
+        }
+        
+        /* 模板14: 简约风格 - 白色细线 */
+        .template14 .preview-text {
+            color: white;
+            font-size: 40px;
+            top: 80px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-weight: 300;
+        }
+        
+        /* 模板15: 醒目警告 - 红底白字 */
+        .template15 .preview-text {
+            color: white;
+            font-size: 50px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: red;
+            padding: 10px 20px;
+            border-radius: 5px;
+        }
+        
+        /* 模板16: 优雅风格 - 灰色文字 */
+        .template16 .preview-text {
+            color: #808080;
+            font-size: 45px;
+            top: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        
+        /* 模板17: 活力风格 - 橙色文字 */
+        .template17 .preview-text {
+            color: #FF6600;
+            font-size: 54px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-shadow: 
+                -3px -3px 0 white,
+                3px -3px 0 white,
+                -3px 3px 0 white,
+                3px 3px 0 white;
+        }
+        
+        /* 模板18: 科技风格 - 青色文字 */
+        .template18 .preview-text {
+            color: #00FFFF;
+            font-size: 58px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-shadow: 
+                0 0 10px #00FFFF,
+                0 0 20px #00FFFF,
+                0 0 30px #00FFFF;
+        }
+        
+        /* 模板19: 可爱风格 - 粉色文字 */
+        .template19 .preview-text {
+            color: #FFB6C1;
+            font-size: 52px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-shadow: 
+                -2px -2px 0 white,
+                2px -2px 0 white,
+                -2px 2px 0 white,
+                2px 2px 0 white;
+        }
+        
+        /* 模板20: 商务风格 - 深蓝文字 */
+        .template20 .preview-text {
+            color: #000080;
+            font-size: 48px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(255, 255, 255, 0.3);
+            padding: 8px 16px;
+            border-radius: 5px;
+        }
+        
+        .code-block {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 15px;
+            border-radius: 8px;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 12px;
+            overflow-x: auto;
+            margin-top: 10px;
+            border-left: 3px solid #FFD700;
+        }
+        
+        .params {
+            margin-top: 10px;
+            font-size: 13px;
+            color: #E0E0E0;
+        }
+        
+        .params strong {
+            color: #FFD700;
+        }
+        
+        .note {
+            background: rgba(255, 215, 0, 0.1);
+            border-left: 4px solid #FFD700;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+        
+        .note-title {
+            font-weight: bold;
+            color: #FFD700;
+            margin-bottom: 8px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎨 FFmpeg 花字模板效果预览</h1>
+        <p style="text-align: center; margin-bottom: 30px; font-size: 18px;">使用文字："<strong style="color: #FFD700;">测试文字</strong>" 作为示例</p>
+        
+        <div class="template-grid">
+            <!-- 模板1 -->
+            <div class="template-card template1">
+                <div class="template-title">模板1: 基础白色文字（左上角）</div>
+                <div class="preview-box">
+                    <div class="preview-text">测试文字</div>
+                </div>
+                <div class="code-block">
+drawtext=text='测试文字':fontcolor=white:fontsize=48:x=10:y=10
+                </div>
+                <div class="params">
+                    <strong>颜色:</strong> 白色 | <strong>大小:</strong> 48px | <strong>位置:</strong> 左上角(10,10)
+                </div>
+            </div>
+            
+            <!-- 模板2 -->
+            <div class="template-card template2">
+                <div class="template-title">模板2: 红色粗体文字（居中）</div>
+                <div class="preview-box">
+                    <div class="preview-text">测试文字</div>
+                </div>
+                <div class="code-block">
+drawtext=text='测试文字':fontcolor=red:fontsize=60:x=(w-text_w)/2:y=(h-text_h)/2
+                </div>
+                <div class="params">
+                    <strong>颜色:</strong> 红色 | <strong>大小:</strong> 60px | <strong>位置:</strong> 居中
+                </div>
+            </div>
+            
+            <!-- 模板3 -->
+            <div class="template-card template3">
+                <div class="template-title">模板3: 黄色描边文字（底部居中）</div>
+                <div class="preview-box">
+                    <div class="preview-text">测试文字</div>
+                </div>
+                <div class="code-block">
+drawtext=text='测试文字':fontcolor=yellow:fontsize=50:x=(w-text_w)/2:y=h-th-20:borderw=3:bordercolor=black
+                </div>
+                <div class="params">
+                    <strong>颜色:</strong> 黄色 | <strong>描边:</strong> 黑色3px | <strong>位置:</strong> 底部居中
+                </div>
+            </div>
+            
+            <!-- 模板4 -->
+            <div class="template-card template4">
+                <div class="template-title">模板4: 渐变彩色文字（顶部）</div>
+                <div class="preview-box">
+                    <div class="preview-text">测试文字</div>
+                </div>
+                <div class="code-block">
+drawtext=text='测试文字':fontcolor=0xFF00FF:fontsize=55:x=10:y=30
+                </div>
+                <div class="params">
+                    <strong>颜色:</strong> 渐变彩色 | <strong>大小:</strong> 55px | <strong>位置:</strong> 顶部
+                </div>
+            </div>
+            
+            <!-- 模板5 -->
+            <div class="template-card template5">
+                <div class="template-title">模板5: 带阴影的文字（右下角）</div>
+                <div class="preview-box">
+                    <div class="preview-text">测试文字</div>
+                </div>
+                <div class="code-block">
+drawtext=text='测试文字':fontcolor=white:fontsize=48:x=w-tw-20:y=h-th-20:shadowx=4:shadowy=4:shadowcolor=black@0.8
+                </div>
+                <div class="params">
+                    <strong>颜色:</strong> 白色 | <strong>阴影:</strong> 黑色 | <strong>位置:</strong> 右下角
+                </div>
+            </div>
+            
+            <!-- 模板6 -->
+            <div class="template-card template6">
+                <div class="template-title">模板6: 半透明背景文字（居中）</div>
+                <div class="preview-box">
+                    <div class="preview-text">测试文字</div>
+                </div>
+                <div class="code-block">
+drawtext=text='测试文字':fontcolor=white:fontsize=50:x=(w-text_w)/2:y=(h-text_h)/2:box=1:boxcolor=black@0.5:boxborderw=5
+                </div>
+                <div class="params">
+                    <strong>颜色:</strong> 白色 | <strong>背景:</strong> 半透明黑色 | <strong>位置:</strong> 居中
+                </div>
+            </div>
+            
+            <!-- 模板7 -->
+            <div class="template-card template7">
+                <div class="template-title">模板7: 抖音风格 - 粉色文字（底部）</div>
+                <div class="preview-box">
+                    <div class="preview-text">测试文字</div>
+                </div>
+                <div class="code-block">
+drawtext=text='测试文字':fontcolor=0xFF1493:fontsize=52:x=(w-text_w)/2:y=h-th-50:borderw=4:bordercolor=white
+                </div>
+                <div class="params">
+                    <strong>颜色:</strong> 深粉色(#FF1493) | <strong>描边:</strong> 白色4px | <strong>位置:</strong> 底部居中
+                </div>
+            </div>
+            
+            <!-- 模板8 -->
+            <div class="template-card template8">
+                <div class="template-title">模板8: 霓虹灯效果（闪烁文字）</div>
+                <div class="preview-box">
+                    <div class="preview-text">测试文字</div>
+                </div>
+                <div class="code-block">
+drawtext=text='测试文字':fontcolor=0x00FFFF:fontsize=60:x=(w-text_w)/2:y=(h-text_h)/2:enable='between(t,0,10)'
+                </div>
+                <div class="params">
+                    <strong>颜色:</strong> 青色 | <strong>效果:</strong> 闪烁发光 | <strong>位置:</strong> 居中
+                </div>
+            </div>
+            
+            <!-- 模板9 -->
+            <div class="template-card template9">
+                <div class="template-title">模板9: 滚动文字（从右到左）</div>
+                <div class="preview-box">
+                    <div class="preview-text">测试文字</div>
+                </div>
+                <div class="code-block">
+drawtext=text='测试文字':fontcolor=white:fontsize=48:x='w-mod(t*50,w+tw)':y=50
+                </div>
+                <div class="params">
+                    <strong>颜色:</strong> 白色 | <strong>效果:</strong> 从右向左滚动 | <strong>动画:</strong> 持续滚动
+                </div>
+            </div>
+            
+            <!-- 模板10 -->
+            <div class="template-card template10">
+                <div class="template-title">模板10: 打字机效果（逐字显示）</div>
+                <div class="preview-box">
+                    <div class="preview-text">测试文字</div>
+                </div>
+                <div class="code-block">
+drawtext=text='测试文字':fontcolor=white:fontsize=50:x=10:y=100:enable='between(t,0,2)'
+                </div>
+                <div class="params">
+                    <strong>颜色:</strong> 白色 | <strong>效果:</strong> 逐字显示 | <strong>动画:</strong> 打字机效果
+                </div>
+            </div>
+            
+            <!-- 模板11 -->
+            <div class="template-card template11">
+                <div class="template-title">模板11: 彩虹渐变文字</div>
+                <div class="preview-box">
+                    <div class="preview-text">测试文字</div>
+                </div>
+                <div class="code-block">
+drawtext=text='测试文字':fontcolor=0xFF0000:fontsize=55:x=(w-text_w)/2:y=100
+                </div>
+                <div class="params">
+                    <strong>颜色:</strong> 彩虹渐变 | <strong>大小:</strong> 55px | <strong>位置:</strong> 居中
+                </div>
+            </div>
+            
+            <!-- 模板12 -->
+            <div class="template-card template12">
+                <div class="template-title">模板12: 立体3D文字</div>
+                <div class="preview-box">
+                    <div class="preview-text">测试文字</div>
+                </div>
+                <div class="code-block">
+drawtext=text='测试文字':fontcolor=white:fontsize=60:x=(w-text_w)/2:y=(h-text_h)/2:shadowx=2:shadowy=2:shadowcolor=black
+                </div>
+                <div class="params">
+                    <strong>颜色:</strong> 白色 | <strong>效果:</strong> 3D立体 | <strong>位置:</strong> 居中
+                </div>
+            </div>
+            
+            <!-- 模板13 -->
+            <div class="template-card template13">
+                <div class="template-title">模板13: 抖音热门 - 金色文字</div>
+                <div class="preview-box">
+                    <div class="preview-text">测试文字</div>
+                </div>
+                <div class="code-block">
+drawtext=text='测试文字':fontcolor=0xFFD700:fontsize=56:x=(w-text_w)/2:y=(h-text_h)/2:borderw=5:bordercolor=black
+                </div>
+                <div class="params">
+                    <strong>颜色:</strong> 金色(#FFD700) | <strong>描边:</strong> 黑色5px | <strong>位置:</strong> 居中
+                </div>
+            </div>
+            
+            <!-- 模板14 -->
+            <div class="template-card template14">
+                <div class="template-title">模板14: 简约风格 - 白色细线</div>
+                <div class="preview-box">
+                    <div class="preview-text">测试文字</div>
+                </div>
+                <div class="code-block">
+drawtext=text='测试文字':fontcolor=white:fontsize=40:x=(w-text_w)/2:y=80
+                </div>
+                <div class="params">
+                    <strong>颜色:</strong> 白色 | <strong>大小:</strong> 40px | <strong>风格:</strong> 简约细线
+                </div>
+            </div>
+            
+            <!-- 模板15 -->
+            <div class="template-card template15">
+                <div class="template-title">模板15: 醒目警告 - 红底白字</div>
+                <div class="preview-box">
+                    <div class="preview-text">测试文字</div>
+                </div>
+                <div class="code-block">
+drawtext=text='测试文字':fontcolor=white:fontsize=50:x=(w-text_w)/2:y=(h-text_h)/2:box=1:boxcolor=red:boxborderw=10
+                </div>
+                <div class="params">
+                    <strong>颜色:</strong> 白色 | <strong>背景:</strong> 红色 | <strong>位置:</strong> 居中
+                </div>
+            </div>
+            
+            <!-- 模板16 -->
+            <div class="template-card template16">
+                <div class="template-title">模板16: 优雅风格 - 灰色文字</div>
+                <div class="preview-box">
+                    <div class="preview-text">测试文字</div>
+                </div>
+                <div class="code-block">
+drawtext=text='测试文字':fontcolor=0x808080:fontsize=45:x=(w-text_w)/2:y=30
+                </div>
+                <div class="params">
+                    <strong>颜色:</strong> 灰色(#808080) | <strong>大小:</strong> 45px | <strong>风格:</strong> 优雅
+                </div>
+            </div>
+            
+            <!-- 模板17 -->
+            <div class="template-card template17">
+                <div class="template-title">模板17: 活力风格 - 橙色文字</div>
+                <div class="preview-box">
+                    <div class="preview-text">测试文字</div>
+                </div>
+                <div class="code-block">
+drawtext=text='测试文字':fontcolor=0xFF6600:fontsize=54:x=(w-text_w)/2:y=(h-text_h)/2:borderw=3:bordercolor=white
+                </div>
+                <div class="params">
+                    <strong>颜色:</strong> 橙色(#FF6600) | <strong>描边:</strong> 白色3px | <strong>位置:</strong> 居中
+                </div>
+            </div>
+            
+            <!-- 模板18 -->
+            <div class="template-card template18">
+                <div class="template-title">模板18: 科技风格 - 青色文字</div>
+                <div class="preview-box">
+                    <div class="preview-text">测试文字</div>
+                </div>
+                <div class="code-block">
+drawtext=text='测试文字':fontcolor=0x00FFFF:fontsize=58:x=(w-text_w)/2:y=(h-text_h)/2:shadowx=0:shadowy=0:shadowcolor=0x00FFFF@0.8
+                </div>
+                <div class="params">
+                    <strong>颜色:</strong> 青色(#00FFFF) | <strong>效果:</strong> 发光 | <strong>位置:</strong> 居中
+                </div>
+            </div>
+            
+            <!-- 模板19 -->
+            <div class="template-card template19">
+                <div class="template-title">模板19: 可爱风格 - 粉色文字</div>
+                <div class="preview-box">
+                    <div class="preview-text">测试文字</div>
+                </div>
+                <div class="code-block">
+drawtext=text='测试文字':fontcolor=0xFFB6C1:fontsize=52:x=(w-text_w)/2:y=(h-text_h)/2:borderw=2:bordercolor=white
+                </div>
+                <div class="params">
+                    <strong>颜色:</strong> 浅粉色(#FFB6C1) | <strong>描边:</strong> 白色2px | <strong>位置:</strong> 居中
+                </div>
+            </div>
+            
+            <!-- 模板20 -->
+            <div class="template-card template20">
+                <div class="template-title">模板20: 商务风格 - 深蓝文字</div>
+                <div class="preview-box">
+                    <div class="preview-text">测试文字</div>
+                </div>
+                <div class="code-block">
+drawtext=text='测试文字':fontcolor=0x000080:fontsize=48:x=(w-text_w)/2:y=(h-text_h)/2:box=1:boxcolor=white@0.3:boxborderw=8
+                </div>
+                <div class="params">
+                    <strong>颜色:</strong> 深蓝色(#000080) | <strong>背景:</strong> 半透明白色 | <strong>位置:</strong> 居中
+                </div>
+            </div>
+        </div>
+        
+        <div class="note">
+            <div class="note-title">💡 使用说明</div>
+            <p>1. 以上是20种花字模板的视觉效果预览</p>
+            <p>2. 每个模板都显示了实际的效果样式（颜色、位置、描边等）</p>
+            <p>3. 代码块中是对应的FFmpeg drawtext命令</p>
+            <p>4. 参数说明中列出了关键的颜色、大小、位置等信息</p>
+            <p>5. 动画效果（如滚动、闪烁）在预览中会持续播放</p>
+            <p>6. 实际使用时，将代码块中的命令添加到FFmpeg的 -vf 参数中</p>
+        </div>
+        
+        <div style="text-align: center; margin-top: 40px; padding: 20px; background: rgba(0,0,0,0.3); border-radius: 10px;">
+            <p style="font-size: 14px; color: #E0E0E0;">
+                所有模板使用文字："<strong style="color: #FFD700;">测试文字</strong>" 作为示例展示
+            </p>
+        </div>
+    </div>
+</body>
+</html>
+
+
+
+

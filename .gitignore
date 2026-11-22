@@ -1,0 +1,56 @@
+# Dependencies & build
+node_modules/
+dist/
+build/
+web-dist/
+*.pyc
+__pycache__/
+.venv/
+venv/
+*.egg-info/
+
+# Local secrets & env
+.env
+.env.*
+!.env.example
+*.local
+config.local.yaml
+
+# Runtime / user data (never commit)
+**/browser_data/
+**/output/
+**/logs/
+**/debug_artifacts*/
+**/temp_subtitle*/
+**/materials/
+*.log
+*.mp4
+*.webm
+*.wav
+*.mp3
+cookies.json
+*_cookie*.txt
+
+# Large binaries (install locally)
+env/chrome/
+env/ffmpeg/
+**/._cache_chrome.exe
+谷歌浏览器.exe
+*.zip
+
+# IDE / OS
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+*.suo
+*.swp
+
+# Packaging / installer artifacts
+*.iss
+*.exe
+!env/chromedriver/chromedriver.exe
+release/
+_tmp*/
+%SRC%/
+霍客版/

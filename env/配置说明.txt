@@ -1,0 +1,60 @@
+AI短视频自动生产系统 - 环境配置说明
+========================================
+
+一、快速安装（推荐）
+-------------------
+Windows用户：
+1. 双击运行 install.bat
+2. 等待安装完成
+
+Linux/Mac用户：
+1. 运行 chmod +x install.sh
+2. 运行 ./install.sh
+
+二、手动安装步骤
+---------------
+1. 安装Python依赖：
+   pip install -r requirements.txt
+
+2. 安装浏览器驱动：
+   playwright install chromium
+
+3. 安装Whisper模型（首次自动下载）：
+   python -c "import whisper; whisper.load_model('base')"
+
+三、AI接口配置（已内置，无需修改）
+----------------------------------
+API地址：https://new.12ai.org/v1/chat/completions
+API密钥：
+模型：gpt-5.2
+
+如需修改，可在环境变量中设置：
+- AI_API_URL
+- AI_API_KEY
+
+四、系统要求
+-----------
+- Python 3.10 或更高版本
+- Windows 10/11 或 Linux/Mac
+- 至少 2GB 可用磁盘空间
+- 网络连接（用于下载模型和视频）
+
+五、验证安装
+-----------
+运行以下命令验证：
+python -c "import fastapi, yt_dlp, whisper, moviepy, playwright; print('安装成功！')"
+
+六、常见问题
+-----------
+1. MoviePy需要FFmpeg，Windows用户需单独安装
+2. 首次运行会下载Whisper模型（约500MB）
+3. 浏览器驱动会自动下载，需要网络连接
+
+如有问题，请查看 README.md 文件
+
+
+
+
+
+
+
